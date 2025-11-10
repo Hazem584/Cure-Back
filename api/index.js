@@ -2,9 +2,12 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT || 3000;
-const mongoose = require("mongoose");
 const URL = process.env.DB_URL;
+const appointmentsRoutes = require("../routes/appointments");
+const doctorsRouter = require("../routes/doctors");
+const mongoose = require("mongoose");
 app.use(express.json());
+
 mongoose
   .connect(URL)
   .then(() => {
@@ -14,9 +17,9 @@ mongoose
     console.error("Error connecting to MongoDB:", err);
   });
 
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
+app.use("/api/v1/appointments", appointmentsRoutes);
+app.use("/api/v1/doctors", doctorsRouter);
+
 app.use((req, res) => {
   res.status(404).send({
     message: "This is a invalid route",
