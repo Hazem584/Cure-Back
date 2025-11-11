@@ -5,6 +5,7 @@ const port = process.env.PORT || 3000;
 const URL = process.env.DB_URL;
 const appointmentsRoutes = require("../routes/appointments");
 const doctorsRouter = require("../routes/doctors");
+const userRoutes = require("../routes/user");
 const mongoose = require("mongoose");
 app.use(express.json());
 
@@ -19,7 +20,7 @@ mongoose
 
 app.use("/api/v1/appointments", appointmentsRoutes);
 app.use("/api/v1/doctors", doctorsRouter);
-
+app.use("/api/v1/user", userRoutes);
 app.use((req, res) => {
   res.status(404).send({
     message: "This is a invalid route",
