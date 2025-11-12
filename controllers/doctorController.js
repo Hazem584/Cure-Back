@@ -43,6 +43,45 @@ createDoctor = async (req, res) => {
     });
   }
 };
+getAllDoctors = async (req, res) => {
+  try {
+    const { specialty, city, search } = req.query;
+
+    const filter = { isActive: true };
+
+    if (specialty) {
+      filter.specialty = specialty;
+    }
+
+    if (city) {
+      filter["location.city"] = city;
+    }
+
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { specialty: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    const doctors = await Doctor.find(filter)
+      .select("-__v")
+      .sort({ "rating.average": -1 });
+
+    res.status(200).json({
+      success: true,
+      count: doctors.length,
+      data: doctors,
+    });
+  } catch (error) {
+    console.error("Error fetching doctors:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching doctors",
+      error: error.message,
+    });
+  }
+};
 
 getDoctorById = async (req, res) => {
   try {
@@ -66,6 +105,98 @@ getDoctorById = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error fetching doctor",
+      error: error.message,
+    });
+  }
+};
+createDoctorReview = async (req, res) => {
+  try {
+    const { id: doctorId } = req.params;
+    const { rating, comment = "", visitType = "clinic", appointmentId } = req.body;
+    
+    const userId = req.user.id;
+
+    if (!mongoose.Types.ObjectId.isValid(doctorId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid doctor id",
+      });
+    }
+
+    if (typeof rating !== "number" || rating < 1 || rating > 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Rating must be a number between 1 and 5",
+      });
+    }
+
+    if (visitType && !["clinic", "online"].includes(visitType)) {
+      return res.status(400).json({
+        success: false,
+        message: "visitType must be either clinic or online",
+      });
+    }
+
+    const doctor = await Doctor.findById(doctorId).select("rating");
+    if (!doctor) {
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
+
+    const existingReview = await Review.findOne({ doctorId, userId });
+    if (existingReview) {
+      return res.status(409).json({
+        success: false,
+        message: "You have already reviewed this doctor",
+      });
+    }
+
+    const review = await Review.create({
+      doctorId,
+      userId,
+      rating,
+      comment,
+      visitType,
+      appointmentId: appointmentId || undefined, 
+    });
+
+    const currentAverage = doctor.rating?.average || 0;
+    const currentCount = doctor.rating?.count || 0;
+    const newCount = currentCount + 1;
+    const newAverage = (
+      (currentAverage * currentCount + rating) /
+      newCount
+    ).toFixed(1);
+
+    doctor.rating.average = Number(newAverage);
+    doctor.rating.count = newCount;
+    await doctor.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Review added successfully",
+      data: {
+        id: review._id,
+        rating: review.rating,
+        comment: review.comment,
+        visitType: review.visitType,
+        appointmentId: review.appointmentId || null,
+        doctorId: review.doctorId,
+        userId: review.userId,
+        createdAt: review.createdAt,
+      },
+      ratingSummary: {
+        average: doctor.rating.average,
+        count: doctor.rating.count,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating doctor review:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error creating doctor review",
       error: error.message,
     });
   }
@@ -161,4 +292,5 @@ module.exports = {
   getDoctorById,
   getDoctorReviews,
   createDoctor,
+  createDoctorReview,
 };
