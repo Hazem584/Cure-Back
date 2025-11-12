@@ -1,8 +1,14 @@
 const express = require("express");
-const checkReq = require("../middleware/checkRequest")
 const router = express.Router();
+const  getAllUsers = require("../controllers/users/get_allUsers");
+const verifyToken = require("../middleware/verifyToken");
+const checkRole = require("../middleware/checkRole");
+const checkReq = require("../middleware/checkRequest")
 const usersControllers = require("../controllers/usersControllers")
 const User = require("../models/users_test")
+router.get("/", verifyToken, checkRole("admin", "user"), getAllUsers);
+
+
 
 //this rout just for testing
 // router.get("/add_user", async (req, res) => {
