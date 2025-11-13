@@ -29,7 +29,6 @@ const register = async (req, res) => {
       email,
       password: hashedPassword,
       phone,
-      role: "admin"
     });
 
     const token = jwt.sign(
@@ -50,7 +49,7 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.error("Register Error:", error);
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
