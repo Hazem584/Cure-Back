@@ -6,8 +6,9 @@ const {
   getAppointments,
   deleted,
 } = require("../controllers/userAppointmentController");
+const verifyToken = require("../middleware/verifyToken");
 
-router.post("/", appointmentsController.createAppointment);
+router.post("/", verifyToken, appointmentsController.createAppointment);
 
 router.get("/available", appointmentsController.getAvailableSlots);
 router
