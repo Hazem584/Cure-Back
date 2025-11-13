@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const appointmentsController = require("../controllers/appointmentsController");
+const verifyToken = require("../middleware/verifyToken");
 const {
   getAppointments,
   deleted,
@@ -10,7 +11,7 @@ router.post("/", appointmentsController.createAppointment);
 
 router.get("/available", appointmentsController.getAvailableSlots);
 router
-  .get("/getAppointments", getAppointments)
-  .delete("/deleteAppointments", deleted);
+  .get("/getAppointments", verifyToken, getAppointments)
+  .delete("/deleteAppointments", verifyToken, deleted);
 
 module.exports = router;

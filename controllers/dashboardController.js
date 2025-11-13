@@ -68,7 +68,7 @@ const editDoctor = async (req, res) => {
 
 const deleteDoctor = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         message: "Invalid ID format",

@@ -10,7 +10,6 @@ const mongoose = require("mongoose");
 const authRoutes = require("../routes/auth");
 const usersRoutes = require("../routes/user");
 
-
 app.use(express.json());
 
 mongoose
