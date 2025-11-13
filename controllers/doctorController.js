@@ -112,8 +112,13 @@ getDoctorById = async (req, res) => {
 createDoctorReview = async (req, res) => {
   try {
     const { id: doctorId } = req.params;
-    const { rating, comment = "", visitType = "clinic", appointmentId } = req.body;
-    
+    const {
+      rating,
+      comment = "",
+      visitType = "clinic",
+      appointmentId,
+    } = req.body;
+
     const userId = req.user.id;
 
     if (!mongoose.Types.ObjectId.isValid(doctorId)) {
@@ -159,7 +164,7 @@ createDoctorReview = async (req, res) => {
       rating,
       comment,
       visitType,
-      appointmentId: appointmentId || undefined, 
+      appointmentId: appointmentId || undefined,
     });
 
     const currentAverage = doctor.rating?.average || 0;
@@ -289,6 +294,7 @@ getDoctorReviews = async (req, res) => {
 };
 
 module.exports = {
+  getAllDoctors,
   getDoctorById,
   getDoctorReviews,
   createDoctor,
