@@ -14,7 +14,7 @@ const doctorSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default: "https://pngtree.com/so/doctor",
+      default: "https://images.pexels.com/photos/19218034/pexels-photo-19218034/free-photo-of-smiling-doctor-in-a-lab-coat-and-with-a-stethoscope.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     },
     phone: {
       type: String,
