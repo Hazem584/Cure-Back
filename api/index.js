@@ -10,7 +10,6 @@ const mongoose = require("mongoose");
 const authRoutes = require("../routes/auth");
 const usersRoutes = require("../routes/user");
 
-
 app.use(express.json());
 
 mongoose
@@ -21,6 +20,7 @@ mongoose
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err);
   });
+
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/appointments", appointmentsRoutes);

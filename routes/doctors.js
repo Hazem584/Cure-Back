@@ -5,21 +5,33 @@ const {
   editDoctor,
   deleteDoctor,
 } = require("../controllers/dashboardController");
+const verifyToken = require("../middleware/verifyToken");
+const checkRole = require("../middleware/checkRole");
 
 // GET /api/v1/doctors
 router.get("/", doctorController.getAllDoctors);
 
 // GET /api/v1/doctors/:id/reviews
-router.get("/:id/reviews", doctorController.getDoctorReviews);
+router.get("/:id/reviews", verifyToken, doctorController.getDoctorReviews);
 
 // POST /api/v1/doctors/:id/reviews
-router.post("/:id/reviews", doctorController.createDoctorReview);
+router.post(
+  "/:id/reviews",
+  verifyToken,
+  checkRole("user", "admin"),
+  doctorController.createDoctorReview
+);
 
 // GET /api/v1/doctors/:id
 router.get("/:id", doctorController.getDoctorById);
 
 // POST /api/v1/doctors
-router.post("/", doctorController.createDoctor);
+router.post(
+  "/",
+  verifyToken,
+  checkRole("admin"),
+  doctorController.createDoctor
+);
 
 router.patch("/:id", editDoctor).delete("/:id", deleteDoctor);
 

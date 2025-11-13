@@ -289,6 +289,7 @@ getDoctorReviews = async (req, res) => {
 };
 
 module.exports = {
+  getAllDoctors,
   getDoctorById,
   getDoctorReviews,
   createDoctor,
