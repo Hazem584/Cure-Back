@@ -67,7 +67,6 @@ createAppointment = async (req, res) => {
   }
 };
 
-
 getAvailableSlots = async (req, res) => {
   try {
     const { doctorId, date } = req.query;
