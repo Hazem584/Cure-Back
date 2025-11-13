@@ -29,7 +29,6 @@ const deleted = async (req, res) => {
       await check.deleteOne();
       return res.status(200).json({
         message: "appointment has been deleted successfully",
-        data: check,
       });
     } else {
       res.status(400).json({ message: "appointment not found" });
