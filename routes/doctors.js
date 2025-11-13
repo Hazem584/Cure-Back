@@ -15,6 +15,6 @@ router.get("/:id", doctorController.getDoctorById);
 // POST /api/v1/doctors
 router.post("/", doctorController.createDoctor);
 
-router.post("/:id", editDoctor).delete("/:id", deleteDoctor);
+router.put("/:id", editDoctor).delete("/:id", deleteDoctor);
 
 module.exports = router;
