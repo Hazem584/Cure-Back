@@ -7,7 +7,7 @@ const {
   deleted,
 } = require("../controllers/userAppointmentController");
 
-router.post("/", appointmentsController.createAppointment);
+router.post("/", verifyToken, appointmentsController.createAppointment);
 
 router.get("/available", appointmentsController.getAvailableSlots);
 router
