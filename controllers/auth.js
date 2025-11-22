@@ -8,12 +8,12 @@ const register = async (req, res) => {
   console.log("Request body:", req.body);
 
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!name || !email || !password || !phone) {
+    if (!name || !email || !password ) {
       return res
         .status(400)
-        .json({ message: "Please provide name, email, password, and phone" });
+        .json({ message: "Please provide name, email, password" });
     }
 
     const existingUser = await User.findOne({ email });
@@ -27,7 +27,6 @@ const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      phone,
     });
 
     const token = jwt.sign(
