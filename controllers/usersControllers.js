@@ -4,7 +4,6 @@ const User = require("../models/users_test");
 const get_one_user = async (req, res) => {
   const user_id = req.params.id;
 
-    //first see if valid id
      if (!mongoose.Types.ObjectId.isValid(user_id)) {
        return res.status(400).json({ 
         code:400,
@@ -37,7 +36,6 @@ const get_one_user = async (req, res) => {
 
 const update_user = async (req,res) =>{
      const user_id = req.params.id;
-    //first see if valid id
      if (!mongoose.Types.ObjectId.isValid(user_id)) {
        return res.status(400).json({ 
         code:400,
@@ -46,7 +44,6 @@ const update_user = async (req,res) =>{
      }
 
      try {
-        //check if data correct then update
        const updatedUser = await User.findByIdAndUpdate(user_id, req.body, {
          new: true,
          runValidators: true,
@@ -73,7 +70,6 @@ const update_user = async (req,res) =>{
 const delete_user = async (req, res)=>{
   const user_id = req.params.id;
 
-  //first see if valid id
   if (!mongoose.Types.ObjectId.isValid(user_id)) {
     return res.status(400).json({
       code: 400,
