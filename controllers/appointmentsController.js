@@ -1,6 +1,5 @@
 const Appointment = require("../models/appointments_model");
 const Doctor = require("../models/doctor_model");
-const { formatAppointmentResponse } = require("../utils/appointmentFormatter");
 
 createAppointment = async (req, res) => {
   try {
@@ -53,15 +52,11 @@ createAppointment = async (req, res) => {
 
     await newAppointment.save();
 
-    const appointmentPayload = formatAppointmentResponse(
-      newAppointment,
-      doctor
-    );
 
     res.status(201).json({
       success: true,
       message: "Appointment created successfully",
-      data: appointmentPayload,
+      data: newAppointment,
     });
   } catch (error) {
     console.error("Error creating appointment:", error);
