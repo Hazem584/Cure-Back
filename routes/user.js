@@ -6,11 +6,11 @@ const verifyToken = require("../middleware/verifyToken");
 const checkRole = require("../middleware/checkRole");
 const checkReq = require("../middleware/checkRequest");
 const upload = require("../middleware/uploadAvatar"); 
-const User = require("../models/users_test");
+const User = require("../models/user");
 router.get("/", verifyToken, checkRole("admin", "user"), getAllUsers);
 
 router.get(
-  "/get_one_user/:id",
+  "/get_one_user",
   checkReq,
   usersControllers.get_one_user
 );

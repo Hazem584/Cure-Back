@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const User = require("../models/users_test");
+const User = require("../models/user");
 
 const get_one_user = async (req, res) => {
-  const user_id = req.params.id;
+  const user_id = req.user.id;
 
   if (!mongoose.Types.ObjectId.isValid(user_id)) {
     return res.status(400).json({ 
@@ -10,10 +10,10 @@ const get_one_user = async (req, res) => {
       message: "Invalid user ID format" 
     });
   }
-
   try {
     const found_user = await User.findById(user_id);
 
+    if(found_user._id)
     if (found_user) {
       return res.status(200).json({
         code: 200,
