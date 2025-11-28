@@ -11,9 +11,7 @@ const get_one_user = async (req, res) => {
     });
   }
   try {
-    const found_user = await User.findById(user_id);
-
-    if(found_user._id)
+    const found_user = await User.findById(user_id).select('-password -__v -_id -createdAt -updatedAt');;
     if (found_user) {
       return res.status(200).json({
         code: 200,
