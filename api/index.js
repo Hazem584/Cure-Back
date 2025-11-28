@@ -37,7 +37,6 @@ mongoose
   });
 app.use("/uploads", express.static("uploads"));
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/appointments", appointmentsRoutes);
 app.use("/api/v1/doctors", doctorsRouter);
 app.use("/api/v1/user", userRoutes);
