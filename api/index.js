@@ -1,14 +1,29 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
+const cors = require("cors");
 const port = process.env.PORT || 3000;
 const URL = process.env.DB_URL;
+
 const appointmentsRoutes = require("../routes/appointments");
 const doctorsRouter = require("../routes/doctors");
 const userRoutes = require("../routes/user");
 const mongoose = require("mongoose");
 const authRoutes = require("../routes/auth");
 const usersRoutes = require("../routes/user");
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://cure-web.vercel.app",  
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
+
 
 app.use(express.json());
 
@@ -20,16 +35,15 @@ mongoose
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err);
   });
-
+app.use("/uploads", express.static("uploads"));
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/appointments", appointmentsRoutes);
 app.use("/api/v1/doctors", doctorsRouter);
 app.use("/api/v1/user", userRoutes);
+
 app.use((req, res) => {
-  console.log(req);
   res.status(404).send({
-    message: "This is a invalid route",
+    message: "This is an invalid route",
     data: null,
   });
 });
@@ -43,5 +57,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });

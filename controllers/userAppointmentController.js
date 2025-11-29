@@ -1,12 +1,14 @@
+const Appointment = require("../models/appointments_model");
 const appointment = require("../models/appointments_model");
+
 const getAppointments = async (req, res) => {
   try {
     const userId = req.user.id;
     const appointments = await appointment.find({ userId });
     if (!appointments || appointments.length == 0) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "no appointments exist",
-        data: null,
+        data: [],
       });
     } else {
       res.status(200).json({
@@ -20,6 +22,7 @@ const getAppointments = async (req, res) => {
     });
   }
 };
+
 const deleted = async (req, res) => {
   try {
     const userId = req.user.id;
