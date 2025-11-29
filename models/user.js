@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
 
     avatarUrl: {
       type: String,
-      default: "",
+      default: "https://i.postimg.cc/0yZR6x8X/145856997-296fe121-5dfa-43f4-98b5-db50019738a7.jpg",
     },
     role: {
       type: String,

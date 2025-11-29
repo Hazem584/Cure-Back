@@ -33,7 +33,7 @@ const get_one_user = async (req, res) => {
 }
 
 const update_user = async (req, res) => {
-  const user_id = req.params.id;
+  const user_id = req.user.id;
 
   if (!mongoose.Types.ObjectId.isValid(user_id)) {
     return res.status(400).json({ 
@@ -45,14 +45,15 @@ const update_user = async (req, res) => {
   try {
     const updateData = { ...req.body };
 
-    if (req.file) {
-      updateData.avatarUrl = `/uploads/${req.file.filename}`;
-    }
+    // if (req.file) {
+    //   updateData.avatarUrl = `/uploads/${req.file.filename}`;
+    // }
 
-    const updatedUser = await User.findByIdAndUpdate(user_id, updateData, {
-      new: true,
-      runValidators: true,
-    });
+    const updatedUser = await User.findByIdAndUpdate(
+      user_id,
+      updateData,
+      { new: true, runValidators: true }
+    ).select('-password -__v -_id -createdAt -updatedAt');
 
     if (!updatedUser) {
       return res.status(404).json({ code: 404, message: "User not found" });
