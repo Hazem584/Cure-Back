@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "https://i.postimg.cc/0yZR6x8X/145856997-296fe121-5dfa-43f4-98b5-db50019738a7.jpg",
     },
+    address:{
+      type: String,
+      default:"",
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
