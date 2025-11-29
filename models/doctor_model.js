@@ -14,7 +14,8 @@ const doctorSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default: "https://pngtree.com/so/doctor",
+      default:
+        "https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png",
     },
     phone: {
       type: String,
@@ -45,7 +46,7 @@ const doctorSchema = new mongoose.Schema(
       required: true,
     },
     experience: {
-      type: Number, 
+      type: Number,
       default: 0,
     },
     rating: {

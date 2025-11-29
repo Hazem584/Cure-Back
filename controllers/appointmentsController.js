@@ -52,6 +52,7 @@ createAppointment = async (req, res) => {
 
     await newAppointment.save();
 
+
     res.status(201).json({
       success: true,
       message: "Appointment created successfully",
