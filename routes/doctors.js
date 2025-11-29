@@ -8,7 +8,6 @@ const {
 } = require("../controllers/dashboardController");
 const verifyToken = require("../middleware/verifyToken");
 
-
 // GET /api/v1/doctors
 router.get("/", doctorController.getAllDoctors);
 

@@ -6,6 +6,7 @@ const getAppointments = async (req, res) => {
     if (!appointments || appointments.length == 0) {
       res.status(400).json({
         message: "no appointments exist",
+        data: null,
       });
     } else {
       res.status(200).json({
