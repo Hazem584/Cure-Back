@@ -6,7 +6,7 @@ const getAppointments = async (req, res) => {
     const userId = req.user.id;
     const appointments = await appointment.find({ userId });
     if (!appointments || appointments.length == 0) {
-      return res.status(400).json({
+      res.status(200).json({
         message: "no appointments exist",
         data: [],
       });
