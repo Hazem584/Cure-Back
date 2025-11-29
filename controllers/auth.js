@@ -82,6 +82,10 @@ const login = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          // added address and avatar url
+          address:user.address,
+          avatarUrl:user.avatarUrl,
+          // -------
           role: user.role,
         },
         token,
@@ -95,7 +99,7 @@ const login = async (req, res) => {
           email: user.email,
           // added address and avatar url
           address:user.address,
-          avataUrl:user.avatarUrl,
+          avatarUrl:user.avatarUrl,
           // -------
           role: user.role,
         },
