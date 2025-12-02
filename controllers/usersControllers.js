@@ -74,7 +74,7 @@ const update_user = async (req, res) => {
 }
 
 const delete_user = async (req, res) => {
-  const user_id = req.params.id;
+  const user_id = req.user.id;
 
   if (!mongoose.Types.ObjectId.isValid(user_id)) {
     return res.status(400).json({

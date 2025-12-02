@@ -22,8 +22,8 @@ router.put(
   usersControllers.update_user
 );
 
-router.post(
-  "/delete_user/:id",
+router.get(
+  "/delete_user",
   checkReq,
   usersControllers.delete_user
 );
