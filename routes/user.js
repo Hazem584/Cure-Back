@@ -16,14 +16,14 @@ router.get(
 );
 
 router.put(
-  "/update_user/:id",
+  "/update_user",
   checkReq,
   upload.single("avatar"), 
   usersControllers.update_user
 );
 
-router.post(
-  "/delete_user/:id",
+router.get(
+  "/delete_user",
   checkReq,
   usersControllers.delete_user
 );
