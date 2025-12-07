@@ -11,6 +11,7 @@ const userRoutes = require("../routes/user");
 const mongoose = require("mongoose");
 const authRoutes = require("../routes/auth");
 const usersRoutes = require("../routes/user");
+const startAppointmentStatusUpdater = require("../utils/appointmentStatusUpdater");
 
 const allowedOrigins = [
   "http://localhost:5173",
@@ -31,6 +32,7 @@ mongoose
   .connect(URL)
   .then(() => {
     console.log("Connected to MongoDB");
+    startAppointmentStatusUpdater();
   })
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err);
