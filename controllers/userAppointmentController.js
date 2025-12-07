@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const getAppointments = async (req, res) => {
   try {
     const userId = req.user.id;
-    const appointments = await Appointment.find({ userId })
+    const appointments = await appointment
+      .find({ userId })
       .populate({
         path: "doctorId",
         select: "name specialty image location consultationPrice",
