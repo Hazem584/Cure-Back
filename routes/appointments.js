@@ -4,7 +4,7 @@ const appointmentsController = require("../controllers/appointmentsController");
 const verifyToken = require("../middleware/verifyToken");
 const {
   getAppointments,
-  deleted,
+  canceled,
 } = require("../controllers/userAppointmentController");
 
 router.post("/", verifyToken, appointmentsController.createAppointment);
@@ -12,6 +12,6 @@ router.post("/", verifyToken, appointmentsController.createAppointment);
 router.get("/available", appointmentsController.getAvailableSlots);
 router
   .get("/getAppointments", verifyToken, getAppointments)
-  .delete("/deleteAppointments", verifyToken, deleted);
+  .patch("/cancelAppointments", verifyToken, canceled);
 
 module.exports = router;
