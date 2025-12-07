@@ -1,4 +1,3 @@
-const Appointment = require("../models/appointments_model");
 const appointment = require("../models/appointments_model");
 
 const getAppointments = async (req, res) => {
@@ -23,20 +22,33 @@ const getAppointments = async (req, res) => {
   }
 };
 
-const deleted = async (req, res) => {
+const canceled = async (req, res) => {
   try {
     const userId = req.user.id;
     const { appointmentId } = req.body;
 
-    const check = await appointment.findOne({ _id: appointmentId, userId });
-    if (check) {
-      await check.deleteOne();
-      return res.status(200).json({
-        message: "appointment has been deleted successfully",
+    if (!mongoose.Types.ObjectId.isValid(appointmentId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid appointment id",
       });
-    } else {
-      res.status(400).json({ message: "appointment not found" });
     }
+
+    const appointmentDoc = await appointment.findOne({
+      _id: appointmentId,
+      userId,
+    });
+
+    if (!appointmentDoc) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+
+    appointmentDoc.status = "cancelled";
+    await appointmentDoc.save();
+
+    return res.status(200).json({
+      message: "Appointment has been cancelled successfully",
+    });
   } catch (err) {
     return res.status(500).json({
       message: err.message,
@@ -44,4 +56,4 @@ const deleted = async (req, res) => {
   }
 };
 
-module.exports = { getAppointments, deleted };
+module.exports = { getAppointments, canceled };
