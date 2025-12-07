@@ -26,7 +26,7 @@ createAppointment = async (req, res) => {
       doctorId,
       appointmentDate,
       appointmentTime,
-      status: { $ne: "cancelled" },
+      status: { $ne: "Cancelled" },
     });
 
     if (existingAppointment) {
@@ -51,7 +51,6 @@ createAppointment = async (req, res) => {
     });
 
     await newAppointment.save();
-
 
     res.status(201).json({
       success: true,
@@ -83,7 +82,7 @@ getAvailableSlots = async (req, res) => {
     const bookedAppointments = await Appointment.find({
       doctorId,
       appointmentDate: new Date(date),
-      status: { $ne: "cancelled" },
+      status: { $ne: "Cancelled" },
     }).select("appointmentTime");
 
     const bookedTimes = bookedAppointments.map((app) => app.appointmentTime);
