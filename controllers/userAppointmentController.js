@@ -1,6 +1,5 @@
 const appointment = require("../models/appointments_model");
 const mongoose = require("mongoose");
-
 const getAppointments = async (req, res) => {
   try {
     const userId = req.user.id;
