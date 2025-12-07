@@ -6,7 +6,7 @@ async function completePastAppointments() {
   const now = new Date();
   await Appointment.updateMany(
     { status: "Upcoming", appointmentDate: { $lte: now } },
-    { $set: { status: "completed" } }
+    { $set: { status: "Completed" } }
   );
 }
 
