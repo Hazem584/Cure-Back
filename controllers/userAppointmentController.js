@@ -78,7 +78,7 @@ const canceled = async (req, res) => {
       return res.status(404).json({ message: "Appointment not found" });
     }
 
-    appointmentDoc.status = "cancelled";
+    appointmentDoc.status = "Cancelled";
     await appointmentDoc.save();
 
     return res.status(200).json({
