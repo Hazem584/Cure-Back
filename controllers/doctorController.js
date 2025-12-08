@@ -9,12 +9,13 @@ createDoctor = async (req, res) => {
       !doctorData.name ||
       !doctorData.specialty ||
       !doctorData.phone ||
-      !doctorData.email
+      !doctorData.email ||
+      !doctorData.gender
     ) {
       return res.status(400).json({
         success: false,
         message:
-          "Please provide all required fields: name, specialty, phone, email",
+          "Please provide all required fields: name, specialty, phone, email, gender",
       });
     }
 
@@ -87,7 +88,7 @@ getDoctorById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const doctor = await Doctor.findById(id).select("-__v");
+    const doctor = await Doctor.findById(id).select("-__v").lean();
 
     if (!doctor) {
       return res.status(404).json({
@@ -96,9 +97,14 @@ getDoctorById = async (req, res) => {
       });
     }
 
+    const { workingHours = {}, ...doctorData } = doctor;
+
     res.status(200).json({
       success: true,
-      data: doctor,
+      data: {
+        doctor: doctorData,
+        workingHours,
+      },
     });
   } catch (error) {
     console.error("Error fetching doctor:", error);
