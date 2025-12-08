@@ -17,6 +17,11 @@ const doctorSchema = new mongoose.Schema(
       default:
         "https://upload.wikimedia.org/wikipedia/commons/0/03/Twitter_default_profile_400x400.png",
     },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      required: true,
+    },
     phone: {
       type: String,
       required: true,
@@ -44,6 +49,10 @@ const doctorSchema = new mongoose.Schema(
     consultationPrice: {
       type: Number,
       required: true,
+    },
+    consultationType: {
+      type: String,
+      default: "In-clinic",
     },
     experience: {
       type: Number,
